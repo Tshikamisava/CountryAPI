@@ -1,30 +1,21 @@
-// Navbar.js
+import React from 'react';
 
-import React, { useState } from 'react';
-
-function Navbar() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  // Function to toggle the theme
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
+const Navbar = ({ toggleTheme, theme }) => {
   return (
-    <nav className="bg-blue-500 p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="text-white font-bold text-xl">My Website</div>
-        <div>
-          <button
-            className="text-white px-4 py-2 rounded focus:outline-none"
-            onClick={toggleTheme}
-          >
-            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
-          </button>
-        </div>
-      </div>
+    <nav className="p-4 flex items-center justify-between">
+  
+      <button
+        onClick={toggleTheme}
+        className={`ml-4 px-4 py-2 rounded text-white ${
+          theme === 'light' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-blue-700 hover:bg-blue-600'
+        }`}
+      >
+        {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+      </button>
     </nav>
   );
-}
+};
 
 export default Navbar;
+
+

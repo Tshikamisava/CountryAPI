@@ -1,10 +1,18 @@
 import { useState, useEffect } from "react";
 import Article from "./Flags";
 import Flags from "./Flags";
+import Navbar from "./NavBar";
 
 export default function Countries() {
   const [countries, setCountries] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [theme, setTheme] = useState('light');
+  const darkModeColor = '#1a202c';
+  const lightModeColor = '#f0f0f0';
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
   const regions = [
     {
       name: "Europe",
@@ -25,6 +33,10 @@ export default function Countries() {
       name: "Antarctic",
     },
   ];
+
+  useEffect(() => {
+    document.body.style.backgroundColor = theme === 'light' ? lightModeColor : darkModeColor;
+  }, [theme]);
 
   useEffect(() => {
     document.title = `Showing All Countries`;
@@ -77,9 +89,34 @@ export default function Countries() {
     e.preventDefault();
     filterByRegion();
   }
+  const [bodyBackgroundColor, setBodyBackgroundColor] = useState('#ffffff');
+
+  // Function to generate a random color
+  const getRandomColor = () => {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
+  // Function to handle the random color change
+  const handleRandomColor = () => {
+    const randomColor = getRandomColor();
+    setBodyBackgroundColor(randomColor);
+  };
+
+  // Update the body background color when bodyBackgroundColor changes
+  useEffect(() => {
+    document.body.style.backgroundColor = bodyBackgroundColor;
+  }, [bodyBackgroundColor]);
+
 
   return (
     <>
+
+    <Navbar handleRandomColor={handleRandomColor} toggleTheme={toggleTheme} theme={theme} />
       {!countries ? (
         <h1 className="text-gray-900 font-bold uppercase tracking-wide flex items-center justify-center text-center h-screen text-4xl dark:text-white">
           Loading...
